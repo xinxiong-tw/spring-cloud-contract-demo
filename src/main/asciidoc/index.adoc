@@ -1,0 +1,8 @@
+:toc:
+
+== Fraud Api
+=== is fraud
+operation::FraudTest_validate_fraud[]
+
+=== is not fraud
+operation::FraudTest_validate_no_fraud[]
