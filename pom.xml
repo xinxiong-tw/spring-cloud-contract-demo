@@ -56,11 +56,6 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-contract-verifier</artifactId>
             <scope>test</scope>
         </dependency>
@@ -98,9 +93,38 @@
                 <configuration>
                     <testFramework>JUNIT5</testFramework>
                     <testMode>WEBTESTCLIENT</testMode>
-                    <baseClassForTests>com.example.springcloudcontractdemo.BaseTestClass</baseClassForTests>
                     <packageWithBaseClasses>com.example.springcloudcontractdemo</packageWithBaseClasses>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <!-- By default, we will not push the stubs back to SCM,
+                            you have to explicitly add it as a goal -->
+                            <goal>pushStubsToScm</goal>
+                        </goals>
+                        <configuration>
+                            <!-- We want to pick contracts from a Git repository -->
+                            <contractsRepositoryUrl>git://https://github.com/xinxiong-tw/spring-cloud-contract-storage.git</contractsRepositoryUrl>
+                            <contractsRepositoryUsername>{{username}}</contractsRepositoryUsername>
+                            <contractsRepositoryPassword>{{accessToken}}</contractsRepositoryPassword>
+                            <!-- Example of URL via git protocol -->
+                            <!--<contractsRepositoryUrl>git://git@github.com:spring-cloud-samples/spring-cloud-contract-samples.git</contractsRepositoryUrl>-->
+                            <!-- Example of URL via http protocol -->
+                            <!--<contractsRepositoryUrl>git://https://github.com/spring-cloud-samples/spring-cloud-contract-samples.git</contractsRepositoryUrl>-->
+                            <!-- We reuse the contract dependency section to set up the path
+                            to the folder that contains the contract definitions. In our case the
+                            path will be /groupId/artifactId/version/contracts -->
+                            <contractDependency>
+                                <groupId>${project.groupId}</groupId>-->
+                                <artifactId>${project.artifactId}</artifactId>
+                                <version>${project.version}</version>
+                            </contractDependency>
+                            <!-- The mode can't be classpath -->
+                            <contractsMode>LOCAL</contractsMode>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

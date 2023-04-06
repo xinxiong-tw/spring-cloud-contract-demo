@@ -1,9 +1,6 @@
 package com.example.springcloudcontractdemo;
 
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -24,6 +21,11 @@ public class FraudController {
             }
             return new FraudCheckResponse("OK", "");
         });
+    }
+
+    @GetMapping
+    Mono<String> hello() {
+        return Mono.just("Hello");
     }
 
 }
